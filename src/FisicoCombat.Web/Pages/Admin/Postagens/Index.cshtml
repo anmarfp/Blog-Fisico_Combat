@@ -1,0 +1,49 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Postagens";
+}
+
+<p><a asp-page="/Admin/Index">&larr; Painel</a></p>
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <h1 class="mb-0">Postagens</h1>
+    <a class="btn btn-primary" asp-page="Criar">Nova postagem</a>
+</div>
+
+@if (Model.Postagens.Count == 0)
+{
+    <p>Nenhuma postagem publicada.</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">Título</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Modalidade</th>
+                    <th scope="col">Publicada em</th>
+                    <th scope="col" class="text-end">Visualizações</th>
+                    <th scope="col"><span class="visually-hidden">Ações</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model.Postagens)
+                {
+                    <tr>
+                        <td>@p.Titulo</td>
+                        <td>@(p.Tipo == TipoPostagem.Midia ? "Mídia" : "Notícia")</td>
+                        <td>@(p.Modalidade?.Nome ?? "Sem modalidade")</td>
+                        <td><time datetime="@p.PublicadaEm.ToString("yyyy-MM-ddTHH:mm:ssZ")">@IndexModel.DataLocal(p.PublicadaEm)</time></td>
+                        <td class="text-end">@p.Visualizacoes</td>
+                        <td class="text-end text-nowrap">
+                            <a class="btn btn-sm btn-outline-primary" asp-page="Editar" asp-route-id="@p.Id">Editar <span class="visually-hidden">@p.Titulo</span></a>
+                            <a class="btn btn-sm btn-outline-danger" asp-page="Excluir" asp-route-id="@p.Id">Excluir <span class="visually-hidden">@p.Titulo</span></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
