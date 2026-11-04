@@ -1,0 +1,18 @@
+@page "{id:int}"
+@model ExcluirModel
+@{
+    ViewData["Title"] = "Excluir modalidade";
+}
+
+<h1>Excluir modalidade</h1>
+
+<p>Tem certeza de que deseja excluir a modalidade <strong>@Model.Modalidade.Nome</strong>?</p>
+<ul>
+    <li>As postagens dessa modalidade (@Model.QuantidadePostagens) <strong>não serão excluídas</strong>; elas ficarão sem modalidade.</li>
+    <li>Os professores ligados a ela (@Model.QuantidadeProfessores) continuam cadastrados, apenas sem essa modalidade.</li>
+</ul>
+
+<form method="post">
+    <button type="submit" class="btn btn-danger">Excluir modalidade</button>
+    <a class="btn btn-outline-secondary" asp-page="Index">Cancelar</a>
+</form>

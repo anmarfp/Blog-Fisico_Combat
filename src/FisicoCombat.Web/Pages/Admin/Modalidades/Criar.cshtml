@@ -1,0 +1,27 @@
+@page
+@model CriarModel
+@{
+    ViewData["Title"] = "Nova modalidade";
+}
+
+<h1>Nova modalidade</h1>
+
+<form method="post" class="col-lg-8">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="Modalidade.Nome" class="form-label"></label>
+        <input asp-for="Modalidade.Nome" class="form-control" />
+        <span asp-validation-for="Modalidade.Nome" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Modalidade.Descricao" class="form-label"></label>
+        <textarea asp-for="Modalidade.Descricao" class="form-control" rows="5"></textarea>
+        <span asp-validation-for="Modalidade.Descricao" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a class="btn btn-outline-secondary" asp-page="Index">Cancelar</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

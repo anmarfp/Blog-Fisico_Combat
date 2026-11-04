@@ -1,0 +1,43 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Modalidades";
+}
+
+<p><a asp-page="/Admin/Index">&larr; Painel</a></p>
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <h1 class="mb-0">Modalidades</h1>
+    <a class="btn btn-primary" asp-page="Criar">Nova modalidade</a>
+</div>
+
+@if (Model.Modalidades.Count == 0)
+{
+    <p>Nenhuma modalidade cadastrada.</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Endereço (slug)</th>
+                    <th scope="col"><span class="visually-hidden">Ações</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model.Modalidades)
+                {
+                    <tr>
+                        <td>@m.Nome</td>
+                        <td><code>@m.Slug</code></td>
+                        <td class="text-end text-nowrap">
+                            <a class="btn btn-sm btn-outline-primary" asp-page="Editar" asp-route-id="@m.Id">Editar <span class="visually-hidden">@m.Nome</span></a>
+                            <a class="btn btn-sm btn-outline-danger" asp-page="Excluir" asp-route-id="@m.Id">Excluir <span class="visually-hidden">@m.Nome</span></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

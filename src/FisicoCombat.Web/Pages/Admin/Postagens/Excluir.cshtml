@@ -1,0 +1,22 @@
+@page "{id:int}"
+@model ExcluirModel
+@{
+    ViewData["Title"] = "Excluir postagem";
+}
+
+<h1>Excluir postagem</h1>
+
+<p>Tem certeza de que deseja excluir a postagem <strong>@Model.Postagem.Titulo</strong>?</p>
+<ul>
+    <li>Os comentários dessa postagem (@Model.QuantidadeComentarios) também serão excluídos.</li>
+    @if (Model.Postagem.ImagemCaminho is not null)
+    {
+        <li>A foto da postagem será apagada.</li>
+    }
+</ul>
+<p>Essa ação não pode ser desfeita.</p>
+
+<form method="post">
+    <button type="submit" class="btn btn-danger">Excluir postagem</button>
+    <a class="btn btn-outline-secondary" asp-page="Index">Cancelar</a>
+</form>

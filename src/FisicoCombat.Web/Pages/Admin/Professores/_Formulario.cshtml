@@ -1,0 +1,50 @@
+@model FisicoCombat.Web.Pages.Admin.Professores.FormularioProfessorModel
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<div class="mb-3">
+    <label asp-for="Professor.Nome" class="form-label"></label>
+    <input asp-for="Professor.Nome" class="form-control" />
+    <span asp-validation-for="Professor.Nome" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Professor.Biografia" class="form-label"></label>
+    <textarea asp-for="Professor.Biografia" class="form-control" rows="6"></textarea>
+    <span asp-validation-for="Professor.Biografia" class="text-danger"></span>
+</div>
+
+<fieldset class="mb-3">
+    <legend class="form-label fs-6">Modalidades que ensina</legend>
+    @if (Model.TodasModalidades.Count == 0)
+    {
+        <p class="form-text">Nenhuma modalidade cadastrada. <a asp-page="/Admin/Modalidades/Criar">Cadastrar modalidade</a></p>
+    }
+    @foreach (var m in Model.TodasModalidades)
+    {
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="ModalidadeIds" value="@m.Id" id="modalidade-@m.Id"
+                   checked="@Model.ModalidadeIds.Contains(m.Id)" />
+            <label class="form-check-label" for="modalidade-@m.Id">@m.Nome</label>
+        </div>
+    }
+</fieldset>
+
+@if (Model.FotoAtual is not null)
+{
+    <div class="mb-3">
+        <p class="form-label mb-1">Foto atual</p>
+        <img src="@Model.FotoAtual" alt="@Model.Professor.Nome" class="foto-professor rounded" width="120" height="120" />
+        <div class="form-check mt-2">
+            <input asp-for="RemoverFoto" class="form-check-input" />
+            <label asp-for="RemoverFoto" class="form-check-label">Remover a foto atual</label>
+        </div>
+    </div>
+}
+
+<div class="mb-3">
+    <label asp-for="Foto" class="form-label">@(Model.FotoAtual is null ? "Foto (opcional)" : "Trocar foto (opcional)")</label>
+    <input asp-for="Foto" class="form-control" accept="image/jpeg,image/png,image/webp" aria-describedby="ajuda-foto" />
+    <div id="ajuda-foto" class="form-text">JPG, PNG ou WebP, até 5 MB. O nome do professor é usado como descrição da foto.</div>
+    <span asp-validation-for="Foto" class="text-danger"></span>
+</div>

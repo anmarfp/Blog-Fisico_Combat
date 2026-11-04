@@ -1,0 +1,19 @@
+@page "{id:int}"
+@model ExcluirModel
+@{
+    ViewData["Title"] = "Excluir professor";
+}
+
+<h1>Excluir professor</h1>
+
+<p>Tem certeza de que deseja excluir <strong>@Model.Professor.Nome</strong>?
+    @if (Model.Professor.FotoCaminho is not null)
+    {
+        <text>A foto também será apagada.</text>
+    }
+</p>
+
+<form method="post">
+    <button type="submit" class="btn btn-danger">Excluir professor</button>
+    <a class="btn btn-outline-secondary" asp-page="Index">Cancelar</a>
+</form>

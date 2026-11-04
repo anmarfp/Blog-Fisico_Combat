@@ -1,0 +1,77 @@
+@model FisicoCombat.Web.Pages.Admin.Postagens.FormularioPostagemModel
+
+<div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+<fieldset class="mb-3">
+    <legend class="form-label fs-6">Tipo</legend>
+    <div class="form-check form-check-inline">
+        <input asp-for="Postagem.Tipo" type="radio" value="@TipoPostagem.Noticia" id="tipo-noticia" class="form-check-input" />
+        <label class="form-check-label" for="tipo-noticia">Notícia</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input asp-for="Postagem.Tipo" type="radio" value="@TipoPostagem.Midia" id="tipo-midia" class="form-check-input" />
+        <label class="form-check-label" for="tipo-midia">Mídia (foto ou vídeo)</label>
+    </div>
+    <span asp-validation-for="Postagem.Tipo" class="text-danger d-block"></span>
+</fieldset>
+
+<div class="mb-3">
+    <label asp-for="Postagem.Titulo" class="form-label"></label>
+    <input asp-for="Postagem.Titulo" class="form-control" />
+    <span asp-validation-for="Postagem.Titulo" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Postagem.Conteudo" class="form-label"></label>
+    <textarea asp-for="Postagem.Conteudo" class="form-control" rows="8" aria-describedby="ajuda-conteudo"></textarea>
+    <div id="ajuda-conteudo" class="form-text">Obrigatório para notícias. Deixe uma linha em branco entre parágrafos.</div>
+    <span asp-validation-for="Postagem.Conteudo" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Postagem.ModalidadeId" class="form-label"></label>
+    <select asp-for="Postagem.ModalidadeId" asp-items="Model.OpcoesModalidade" class="form-select">
+        <option value="">Sem modalidade</option>
+    </select>
+    <span asp-validation-for="Postagem.ModalidadeId" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="LinkYoutube" class="form-label"></label>
+    <input asp-for="LinkYoutube" class="form-control" placeholder="https://www.youtube.com/watch?v=..." aria-describedby="ajuda-youtube" />
+    <div id="ajuda-youtube" class="form-text">Opcional. Uma mídia precisa de uma foto ou de um vídeo.</div>
+    <span asp-validation-for="LinkYoutube" class="text-danger"></span>
+</div>
+
+@if (Model.FotoAtual is not null)
+{
+    <div class="mb-3">
+        <p class="form-label mb-1">Foto atual</p>
+        <img src="@Model.FotoAtual" alt="@Model.Postagem.ImagemDescricao" class="rounded img-fluid" style="max-height: 200px" />
+        <div class="form-check mt-2">
+            <input asp-for="RemoverFoto" class="form-check-input" />
+            <label asp-for="RemoverFoto" class="form-check-label">Remover a foto atual</label>
+        </div>
+    </div>
+}
+
+<div class="mb-3">
+    <label asp-for="Foto" class="form-label">@(Model.FotoAtual is null ? "Foto (opcional)" : "Trocar foto (opcional)")</label>
+    <input asp-for="Foto" class="form-control" accept="image/jpeg,image/png,image/webp" aria-describedby="ajuda-foto" />
+    <div id="ajuda-foto" class="form-text">JPG, PNG ou WebP, até 5 MB.</div>
+    <span asp-validation-for="Foto" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Postagem.ImagemDescricao" class="form-label"></label>
+    <input asp-for="Postagem.ImagemDescricao" class="form-control" aria-describedby="ajuda-descricao" />
+    <div id="ajuda-descricao" class="form-text">Obrigatória quando há foto: descreva o que aparece nela para quem usa leitor de tela.</div>
+    <span asp-validation-for="Postagem.ImagemDescricao" class="text-danger"></span>
+</div>
+
+<div class="mb-3 form-check">
+    <input asp-for="AutorizacaoImagem" class="form-check-input" aria-describedby="ajuda-autorizacao" />
+    <label asp-for="AutorizacaoImagem" class="form-check-label"></label>
+    <div id="ajuda-autorizacao" class="form-text">Obrigatória ao enviar foto (LGPD e ECA: alunos podem ser menores de idade).</div>
+    <span asp-validation-for="AutorizacaoImagem" class="text-danger d-block"></span>
+</div>

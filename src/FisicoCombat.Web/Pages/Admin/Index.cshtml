@@ -1,7 +1,109 @@
 @page
-@model FisicoCombat.Web.Pages.Admin.IndexModel
+@model IndexModel
 @{
     ViewData["Title"] = "Painel";
 }
 
 <h1>Painel do administrador</h1>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3 my-2">
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h6 card-title">Postagens</h2>
+                <p class="display-6 mb-2" id="total-postagens">@Model.TotalPostagens</p>
+                <a asp-page="/Admin/Postagens/Index">Gerenciar postagens</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h6 card-title">Professores</h2>
+                <p class="display-6 mb-2" id="total-professores">@Model.TotalProfessores</p>
+                <a asp-page="/Admin/Professores/Index">Gerenciar professores</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h6 card-title">Modalidades</h2>
+                <p class="display-6 mb-2" id="total-modalidades">@Model.TotalModalidades</p>
+                <a asp-page="/Admin/Modalidades/Index">Gerenciar modalidades</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h6 card-title">Comentários pendentes</h2>
+                <p class="display-6 mb-2" id="total-comentarios-pendentes">@Model.ComentariosPendentes</p>
+                <a href="/Admin/Comentarios">Moderar comentários</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex flex-wrap gap-2 my-3">
+    <a class="btn btn-primary" asp-page="/Admin/Postagens/Criar">Nova postagem</a>
+    <a class="btn btn-outline-primary" asp-page="/Admin/Professores/Criar">Novo professor</a>
+    <a class="btn btn-outline-primary" asp-page="/Admin/Modalidades/Criar">Nova modalidade</a>
+</div>
+
+<div class="row g-4">
+    <section class="col-lg-7" aria-labelledby="titulo-mais-vistas">
+        <h2 id="titulo-mais-vistas" class="h4">Postagens mais vistas</h2>
+        @if (Model.MaisVistas.Count == 0)
+        {
+            <p>Nenhuma postagem publicada ainda.</p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-sm align-middle" id="mais-vistas">
+                    <thead>
+                        <tr>
+                            <th scope="col">Título</th>
+                            <th scope="col">Modalidade</th>
+                            <th scope="col" class="text-end">Visualizações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var p in Model.MaisVistas)
+                        {
+                            <tr>
+                                <td><a asp-page="/Admin/Postagens/Editar" asp-route-id="@p.Id">@p.Titulo</a></td>
+                                <td>@(p.Modalidade?.Nome ?? "Sem modalidade")</td>
+                                <td class="text-end">@p.Visualizacoes</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </section>
+
+    <section class="col-lg-5" aria-labelledby="titulo-por-modalidade">
+        <h2 id="titulo-por-modalidade" class="h4">Visualizações por modalidade</h2>
+        <div class="table-responsive">
+            <table class="table table-sm align-middle" id="por-modalidade">
+                <thead>
+                    <tr>
+                        <th scope="col">Modalidade</th>
+                        <th scope="col" class="text-end">Visualizações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var (modalidade, visualizacoes) in Model.VisualizacoesPorModalidade)
+                    {
+                        <tr>
+                            <td>@modalidade</td>
+                            <td class="text-end">@visualizacoes</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
