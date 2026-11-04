@@ -1,0 +1,98 @@
+@page
+@model FisicoCombat.Web.Pages.Postagens.IndexModel
+@{
+    ViewData["Title"] = "Notícias e mídias";
+}
+
+<h1>Notícias e mídias</h1>
+
+<form method="get" asp-page="/Postagens/Index" class="row g-3 align-items-end mb-4" role="search" aria-label="Filtrar postagens">
+    <div class="col-sm-6 col-lg-3">
+        <label for="filtro-tipo" class="form-label">Tipo</label>
+        <select id="filtro-tipo" name="tipo" class="form-select">
+            <option value="">Todos</option>
+            <option value="noticia" selected="@(Model.Tipo == "noticia" ? "selected" : null)">Notícias</option>
+            <option value="midia" selected="@(Model.Tipo == "midia" ? "selected" : null)">Mídias</option>
+        </select>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <label for="filtro-modalidade" class="form-label">Modalidade</label>
+        <select id="filtro-modalidade" name="modalidade" class="form-select">
+            <option value="">Todas</option>
+            @foreach (var m in Model.Modalidades)
+            {
+                <option value="@m.Slug" selected="@(m == Model.ModalidadeAtiva ? "selected" : null)">@m.Nome</option>
+            }
+        </select>
+    </div>
+    <div class="col-sm-8 col-lg-4">
+        <label for="filtro-busca" class="form-label">Buscar no título ou no texto</label>
+        <input type="search" id="filtro-busca" name="q" value="@Model.Busca" maxlength="100" class="form-control" />
+    </div>
+    <div class="col-sm-4 col-lg-2">
+        <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+    </div>
+</form>
+
+@if (Model.TemFiltros)
+{
+    <div class="mb-3">
+        <p class="mb-1">Filtros ativos:</p>
+        <ul class="list-inline mb-1">
+            @if (Model.Tipo is not null)
+            {
+                <li class="list-inline-item"><span class="badge bg-fc-preto">Tipo: @(Model.Tipo == "midia" ? "Mídias" : "Notícias")</span></li>
+            }
+            @if (Model.ModalidadeAtiva is not null)
+            {
+                <li class="list-inline-item"><span class="badge bg-fc-preto">Modalidade: @Model.ModalidadeAtiva.Nome</span></li>
+            }
+            @if (Model.Busca is not null)
+            {
+                <li class="list-inline-item"><span class="badge bg-fc-preto">Busca: “@Model.Busca”</span></li>
+            }
+        </ul>
+        <a asp-page="/Postagens/Index">Limpar filtros</a>
+    </div>
+}
+
+<h2 class="h4">@(Model.Total == 1 ? "1 postagem encontrada" : $"{Model.Total} postagens encontradas")</h2>
+
+@if (Model.Postagens.Count == 0)
+{
+    <p>
+        @(Model.TemFiltros ? "Nenhuma postagem corresponde aos filtros escolhidos." : "Ainda não há postagens publicadas.")
+    </p>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+        @foreach (var postagem in Model.Postagens)
+        {
+            <div class="col"><partial name="_PublicoCartaoPostagem" model="postagem" /></div>
+        }
+    </div>
+}
+
+@if (Model.TotalPaginas > 1)
+{
+    <nav aria-label="Paginação" class="mt-4">
+        <ul class="pagination flex-wrap">
+            @if (Model.Pagina > 1)
+            {
+                <li class="page-item"><a class="page-link" asp-page="/Postagens/Index" asp-all-route-data="Model.Rota(Model.Pagina - 1)">Anterior</a></li>
+            }
+            @for (var i = 1; i <= Model.TotalPaginas; i++)
+            {
+                <li class="page-item @(i == Model.Pagina ? "active" : "")">
+                    <a class="page-link" asp-page="/Postagens/Index" asp-all-route-data="Model.Rota(i)"
+                       aria-current="@(i == Model.Pagina ? "page" : null)">@i</a>
+                </li>
+            }
+            @if (Model.Pagina < Model.TotalPaginas)
+            {
+                <li class="page-item"><a class="page-link" asp-page="/Postagens/Index" asp-all-route-data="Model.Rota(Model.Pagina + 1)">Próxima</a></li>
+            }
+        </ul>
+    </nav>
+}

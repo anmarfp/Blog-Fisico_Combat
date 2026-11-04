@@ -1,0 +1,30 @@
+@page
+@model FisicoCombat.Web.Pages.Modalidades.IndexModel
+@{
+    ViewData["Title"] = "Modalidades";
+}
+
+<h1>Modalidades</h1>
+
+@if (Model.Modalidades.Count == 0)
+{
+    <p>Nenhuma modalidade cadastrada ainda.</p>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        @foreach (var m in Model.Modalidades)
+        {
+            <div class="col">
+                <article class="card h-100">
+                    <div class="card-body">
+                        <h2 class="h4 card-title">
+                            <a asp-page="/Modalidades/Detalhes" asp-route-slug="@m.Slug">@m.Nome</a>
+                        </h2>
+                        <partial name="_PublicoParagrafos" model="m.Descricao ?? string.Empty" />
+                    </div>
+                </article>
+            </div>
+        }
+    </div>
+}

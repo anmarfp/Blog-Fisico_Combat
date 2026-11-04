@@ -1,0 +1,7 @@
+@model DateTime
+@{
+    // As datas são gravadas em UTC; o público vê a data no horário de Brasília.
+    var local = TimeZoneInfo.ConvertTimeFromUtc(DateTime.SpecifyKind(Model, DateTimeKind.Utc),
+        TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo"));
+}
+<time datetime="@local.ToString("yyyy-MM-dd")">@local.ToString("dd/MM/yyyy")</time>

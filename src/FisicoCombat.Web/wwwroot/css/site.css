@@ -89,3 +89,28 @@ main:focus { outline: none; }
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
 }
+
+/* Páginas públicas (postagens, modalidades, professores). */
+.pagination {
+  --bs-pagination-color: var(--fc-vermelho);
+  --bs-pagination-hover-color: var(--fc-vermelho-escuro);
+  --bs-pagination-focus-color: var(--fc-vermelho-escuro);
+  --bs-pagination-active-bg: var(--fc-vermelho);
+  --bs-pagination-active-border-color: var(--fc-vermelho);
+}
+
+.card-postagem .card-img-top {
+  aspect-ratio: 16 / 9;
+}
+
+.iniciais-professor {
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--fc-preto);
+  color: var(--fc-branco);
+  font-size: 2.5rem;
+  font-weight: 700;
+}

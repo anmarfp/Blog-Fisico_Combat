@@ -5,4 +5,41 @@
 }
 
 <h1>Físico Combat</h1>
-<p>Centro de Treinamento de artes marciais em Guaratiba, Rio de Janeiro – RJ.</p>
+<p class="lead">Centro de Treinamento de artes marciais em Guaratiba, Rio de Janeiro – RJ.</p>
+
+<section class="mt-4" aria-labelledby="titulo-recentes">
+    <h2 id="titulo-recentes">Últimas postagens</h2>
+    @if (Model.Recentes.Count == 0)
+    {
+        <p>Ainda não há postagens publicadas.</p>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+            @foreach (var postagem in Model.Recentes)
+            {
+                <div class="col"><partial name="_PublicoCartaoPostagem" model="postagem" /></div>
+            }
+        </div>
+        <p class="mt-3"><a asp-page="/Postagens/Index">Ver todas as notícias e mídias</a></p>
+    }
+</section>
+
+<section class="mt-5" aria-labelledby="titulo-modalidades">
+    <h2 id="titulo-modalidades">Modalidades</h2>
+    @if (Model.Modalidades.Count == 0)
+    {
+        <p>Nenhuma modalidade cadastrada ainda.</p>
+    }
+    else
+    {
+        <ul class="list-inline">
+            @foreach (var modalidade in Model.Modalidades)
+            {
+                <li class="list-inline-item mb-2">
+                    <a class="btn btn-outline-primary" asp-page="/Modalidades/Detalhes" asp-route-slug="@modalidade.Slug">@modalidade.Nome</a>
+                </li>
+            }
+        </ul>
+    }
+</section>

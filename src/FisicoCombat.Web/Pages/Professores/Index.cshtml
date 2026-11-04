@@ -1,0 +1,44 @@
+@page
+@model FisicoCombat.Web.Pages.Professores.IndexModel
+@{
+    ViewData["Title"] = "Professores";
+}
+
+<h1>Professores</h1>
+
+@if (Model.Professores.Count == 0)
+{
+    <p>Nenhum professor cadastrado ainda.</p>
+}
+else
+{
+    foreach (var professor in Model.Professores)
+    {
+        <article id="professor-@professor.Id" class="d-flex flex-column flex-sm-row gap-3 mb-4 pb-4 border-bottom">
+            @if (!string.IsNullOrEmpty(professor.FotoCaminho))
+            {
+                <img src="@professor.FotoCaminho" alt="@professor.Nome" width="140" height="140"
+                     class="foto-professor rounded-circle flex-shrink-0" loading="lazy" />
+            }
+            else
+            {
+                <div class="iniciais-professor rounded-circle flex-shrink-0" aria-hidden="true">@IndexModel.Iniciais(professor.Nome)</div>
+            }
+            <div>
+                <h2 class="h4">@professor.Nome</h2>
+                <partial name="_PublicoParagrafos" model="professor.Biografia ?? string.Empty" />
+                @if (professor.Modalidades.Count > 0)
+                {
+                    <p class="mb-0">
+                        Modalidades:
+                        @for (var i = 0; i < professor.Modalidades.Count; i++)
+                        {
+                            var m = professor.Modalidades[i];
+                            <a asp-page="/Modalidades/Detalhes" asp-route-slug="@m.Slug">@m.Nome</a>@(i < professor.Modalidades.Count - 1 ? ", " : "")
+                        }
+                    </p>
+                }
+            </div>
+        </article>
+    }
+}
