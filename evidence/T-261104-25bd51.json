@@ -1,0 +1,231 @@
+{
+  "schema": "aihaus.evidence.v1",
+  "verdict": "PASS",
+  "commit": "7f90fd4 (main 1efc7a8)",
+  "acceptance": [
+    {
+      "criterion": "`/Conta/Entrar` (RF01/RF08): e-mail, senha e \"manter conectado\" (`Input.Email`, `Input.Senha`, `Input.Lembrar`); mensagem de bloqueio após 5 tentativas; `ReturnUrl` só local.",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Conta",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 31 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #4 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente de dab3aa2: FAIL (política citava 2 cookies; app grava 3). Correção em contexto novo (6dd4cbf); reverificação independente: PASS. Ajustes restantes em 7f90fd4, revisado: PASS."
+        }
+      ]
+    },
+    {
+      "criterion": "`/Conta/Cadastrar` (RF08): nome de exibição, e-mail, senha, confirmação e aceite obrigatório da Política de Privacidade; grava `ConsentimentoEm`; entra logado.",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Conta",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 31 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #4 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente de dab3aa2: FAIL (política citava 2 cookies; app grava 3). Correção em contexto novo (6dd4cbf); reverificação independente: PASS. Ajustes restantes em 7f90fd4, revisado: PASS."
+        }
+      ]
+    },
+    {
+      "criterion": "`/Conta/Sair` só por POST; `/Conta/AcessoNegado` explica a falta de permissão.",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Conta",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 31 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #4 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente de dab3aa2: FAIL (política citava 2 cookies; app grava 3). Correção em contexto novo (6dd4cbf); reverificação independente: PASS. Ajustes restantes em 7f90fd4, revisado: PASS."
+        }
+      ]
+    },
+    {
+      "criterion": "`/Conta/Gerenciar` (logado): ver dados, mudar nome, trocar senha e excluir a conta com confirmação de senha, apagando também os comentários; o último administrador não pode excluir a própria conta.",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Conta",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 31 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #4 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente de dab3aa2: FAIL (política citava 2 cookies; app grava 3). Correção em contexto novo (6dd4cbf); reverificação independente: PASS. Ajustes restantes em 7f90fd4, revisado: PASS."
+        }
+      ]
+    },
+    {
+      "criterion": "`/Privacidade`: dados coletados, finalidade, cookies necessários (autenticação, antifalsificação e mensagens), vídeos do YouTube, contador anônimo de visualizações, direitos do titular e autorização de uso de imagem.",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Conta",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 31 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #4 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente de dab3aa2: FAIL (política citava 2 cookies; app grava 3). Correção em contexto novo (6dd4cbf); reverificação independente: PASS. Ajustes restantes em 7f90fd4, revisado: PASS."
+        }
+      ]
+    },
+    {
+      "criterion": "`/Admin/Comentarios`: lista pendentes por padrão, filtro por status, aprovar, rejeitar e excluir por POST.",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Conta",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 31 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #4 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente de dab3aa2: FAIL (política citava 2 cookies; app grava 3). Correção em contexto novo (6dd4cbf); reverificação independente: PASS. Ajustes restantes em 7f90fd4, revisado: PASS."
+        }
+      ]
+    },
+    {
+      "criterion": "Testes de integração cobrem login real por formulário, cadastro, consentimento obrigatório, redirecionamento externo recusado, exclusão de conta e moderação.",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Conta",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 31 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #4 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente de dab3aa2: FAIL (política citava 2 cookies; app grava 3). Correção em contexto novo (6dd4cbf); reverificação independente: PASS. Ajustes restantes em 7f90fd4, revisado: PASS."
+        }
+      ]
+    }
+  ]
+}

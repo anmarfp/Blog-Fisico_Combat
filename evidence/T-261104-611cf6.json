@@ -1,0 +1,231 @@
+{
+  "schema": "aihaus.evidence.v1",
+  "verdict": "PASS",
+  "commit": "7f90fd4 (main 1efc7a8)",
+  "acceptance": [
+    {
+      "criterion": "Início mostra as 6 postagens mais recentes e as modalidades.",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Publico",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 37 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #2 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente somente leitura no SHA 7b1df15: PASS, sem achados bloqueantes. Ajustes não bloqueantes (comentário de conta excluída, canonical, resumo) integrados em 7f90fd4, revisado: PASS."
+        }
+      ]
+    },
+    {
+      "criterion": "`/Postagens` lista 12 por página, do mais recente, com filtros `tipo` (noticia|midia), `modalidade` (slug) e `q` (título ou texto); RF09 = `/Postagens?tipo=midia&modalidade=<slug>`.",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Publico",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 37 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #2 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente somente leitura no SHA 7b1df15: PASS, sem achados bloqueantes. Ajustes não bloqueantes (comentário de conta excluída, canonical, resumo) integrados em 7f90fd4, revisado: PASS."
+        }
+      ]
+    },
+    {
+      "criterion": "`/Postagens/{id}/{slug?}` exibe a postagem: texto com HTML codificado e quebras de linha em parágrafos, foto com texto alternativo, vídeo em `youtube-nocookie` com `title`; soma 1 em `Visualizacoes` a cada abertura; 404 para id inexistente.",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Publico",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 37 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #2 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente somente leitura no SHA 7b1df15: PASS, sem achados bloqueantes. Ajustes não bloqueantes (comentário de conta excluída, canonical, resumo) integrados em 7f90fd4, revisado: PASS."
+        }
+      ]
+    },
+    {
+      "criterion": "Comentários (RF10): só aprovados aparecem; usuário logado envia comentário que fica `Pendente` com aviso de moderação; visitante vê link para `/Conta/Entrar?ReturnUrl=…`; envio sem login não grava nada.",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Publico",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 37 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #2 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente somente leitura no SHA 7b1df15: PASS, sem achados bloqueantes. Ajustes não bloqueantes (comentário de conta excluída, canonical, resumo) integrados em 7f90fd4, revisado: PASS."
+        }
+      ]
+    },
+    {
+      "criterion": "Compartilhar (RF11): links para WhatsApp, Facebook e X, botão copiar link e botão de compartilhamento nativo (Web Share API) quando disponível; metatags Open Graph.",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Publico",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 37 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #2 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente somente leitura no SHA 7b1df15: PASS, sem achados bloqueantes. Ajustes não bloqueantes (comentário de conta excluída, canonical, resumo) integrados em 7f90fd4, revisado: PASS."
+        }
+      ]
+    },
+    {
+      "criterion": "`/Modalidades`, `/Modalidades/{slug}` (descrição, professores, postagens) e `/Professores` (foto, nome, modalidades).",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Publico",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 37 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #2 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente somente leitura no SHA 7b1df15: PASS, sem achados bloqueantes. Ajustes não bloqueantes (comentário de conta excluída, canonical, resumo) integrados em 7f90fd4, revisado: PASS."
+        }
+      ]
+    },
+    {
+      "criterion": "Testes de integração cobrem filtros, exibição, contador, comentários (logado, anônimo, só aprovados) e 404.",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Publico",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 37 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #2 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente somente leitura no SHA 7b1df15: PASS, sem achados bloqueantes. Ajustes não bloqueantes (comentário de conta excluída, canonical, resumo) integrados em 7f90fd4, revisado: PASS."
+        }
+      ]
+    }
+  ]
+}

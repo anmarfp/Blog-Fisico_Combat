@@ -1,0 +1,199 @@
+{
+  "schema": "aihaus.evidence.v1",
+  "verdict": "PASS",
+  "commit": "7f90fd4 (main 1efc7a8)",
+  "acceptance": [
+    {
+      "criterion": "Painel `/Admin` mostra totais de postagens, professores, modalidades e comentários pendentes (com link para `/Admin/Comentarios`), as 10 postagens mais vistas e o total de visualizações por modalidade.",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Admin",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 37 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #3 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente somente leitura no SHA 7c8e7b9: PASS, sem achados bloqueantes. Ajustes não bloqueantes (slug único no banco, nome com acento, fuso) integrados em 7f90fd4, revisado: PASS."
+        }
+      ]
+    },
+    {
+      "criterion": "Modalidades (RF04/RF05): listar, criar, editar e excluir com confirmação; slug gerado do nome e único (sufixo -2, -3… em colisão); nome duplicado recusado com mensagem.",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Admin",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 37 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #3 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente somente leitura no SHA 7c8e7b9: PASS, sem achados bloqueantes. Ajustes não bloqueantes (slug único no banco, nome com acento, fuso) integrados em 7f90fd4, revisado: PASS."
+        }
+      ]
+    },
+    {
+      "criterion": "Professores (RF02/RF03): listar, criar, editar e excluir; foto opcional via `ArmazenamentoImagens`; seleção de várias modalidades; trocar ou excluir remove o arquivo antigo.",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Admin",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 37 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #3 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente somente leitura no SHA 7c8e7b9: PASS, sem achados bloqueantes. Ajustes não bloqueantes (slug único no banco, nome com acento, fuso) integrados em 7f90fd4, revisado: PASS."
+        }
+      ]
+    },
+    {
+      "criterion": "Postagens (RF06/RF07): notícia ou mídia com título, texto e modalidade opcional; mídia exige foto ou link do YouTube válido (`YouTube.ExtrairId`); foto exige descrição (texto alternativo) e confirmação de autorização de uso de imagem; slug único; `PublicadaEm` em UTC e `AutorId` do usuário logado; editar e excluir (remove a foto).",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Admin",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 37 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #3 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente somente leitura no SHA 7c8e7b9: PASS, sem achados bloqueantes. Ajustes não bloqueantes (slug único no banco, nome com acento, fuso) integrados em 7f90fd4, revisado: PASS."
+        }
+      ]
+    },
+    {
+      "criterion": "Arquivo que não é JPG/PNG/WebP é recusado com mensagem; nada é salvo.",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Admin",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 37 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #3 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente somente leitura no SHA 7c8e7b9: PASS, sem achados bloqueantes. Ajustes não bloqueantes (slug único no banco, nome com acento, fuso) integrados em 7f90fd4, revisado: PASS."
+        }
+      ]
+    },
+    {
+      "criterion": "Testes de integração cobrem cada operação, as validações acima e o bloqueio para não administradores.",
+      "status": "satisfied",
+      "executable": true,
+      "evidence": [
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2 --filter FullyQualifiedName~FisicoCombat.Tests.Admin",
+          "exit_code": 0,
+          "detail": "Clone limpo de 7f90fd4 (main 1efc7a8): 37 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "tool",
+          "command": "dotnet test FisicoCombat.sln --no-build -- xUnit.MaxParallelThreads=2",
+          "exit_code": 0,
+          "detail": "Suíte completa: 143 aprovados, 0 falhas."
+        },
+        {
+          "rung": "ran",
+          "source": "ci",
+          "command": "GitHub Actions CI (build-test)",
+          "exit_code": 0,
+          "detail": "PR #3 e PR #5 com CI verde."
+        },
+        {
+          "rung": "written",
+          "detail": "Revisão independente somente leitura no SHA 7c8e7b9: PASS, sem achados bloqueantes. Ajustes não bloqueantes (slug único no banco, nome com acento, fuso) integrados em 7f90fd4, revisado: PASS."
+        }
+      ]
+    }
+  ]
+}
