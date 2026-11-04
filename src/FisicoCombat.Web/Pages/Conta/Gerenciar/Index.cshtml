@@ -1,0 +1,96 @@
+@page
+@model FisicoCombat.Web.Pages.Conta.Gerenciar.IndexModel
+@{
+    ViewData["Title"] = "Minha conta";
+}
+
+<h1 class="mb-4">Minha conta</h1>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <section class="card" aria-labelledby="dados-titulo">
+            <div class="card-body">
+                <h2 id="dados-titulo" class="h5">Seus dados</h2>
+                <dl class="row mb-0">
+                    <dt class="col-sm-5">Nome de exibição</dt>
+                    <dd class="col-sm-7">@Model.Usuario.NomeExibicao</dd>
+                    <dt class="col-sm-5">E-mail</dt>
+                    <dd class="col-sm-7 text-break">@Model.Usuario.Email</dd>
+                    <dt class="col-sm-5">Política de Privacidade aceita em</dt>
+                    <dd class="col-sm-7">@(Model.ConsentimentoLocal?.ToString("dd/MM/yyyy 'às' HH:mm") ?? "não registrado")</dd>
+                </dl>
+                <p class="small mb-0 mt-2"><a asp-page="/Privacidade">Ler a Política de Privacidade</a></p>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-lg-6">
+        <section class="card" aria-labelledby="nome-titulo">
+            <div class="card-body">
+                <h2 id="nome-titulo" class="h5">Mudar nome</h2>
+                <form method="post" asp-page-handler="Nome">
+                    <div class="mb-3">
+                        <label asp-for="Nome.NomeExibicao" class="form-label"></label>
+                        <input asp-for="Nome.NomeExibicao" class="form-control" autocomplete="name" />
+                        <span asp-validation-for="Nome.NomeExibicao" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salvar nome</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-lg-6">
+        <section class="card" aria-labelledby="senha-titulo">
+            <div class="card-body">
+                <h2 id="senha-titulo" class="h5">Trocar senha</h2>
+                <form method="post" asp-page-handler="Senha">
+                    <div class="mb-3">
+                        <label asp-for="Senha.SenhaAtual" class="form-label"></label>
+                        <input asp-for="Senha.SenhaAtual" class="form-control" autocomplete="current-password" />
+                        <span asp-validation-for="Senha.SenhaAtual" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Senha.NovaSenha" class="form-label"></label>
+                        <input asp-for="Senha.NovaSenha" class="form-control" autocomplete="new-password" aria-describedby="nova-senha-ajuda" />
+                        <div id="nova-senha-ajuda" class="form-text">Mínimo de 8 caracteres, com pelo menos uma letra minúscula e um número.</div>
+                        <span asp-validation-for="Senha.NovaSenha" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Senha.ConfirmarSenha" class="form-label"></label>
+                        <input asp-for="Senha.ConfirmarSenha" class="form-control" autocomplete="new-password" />
+                        <span asp-validation-for="Senha.ConfirmarSenha" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Trocar senha</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-lg-6">
+        <section class="card border-danger" aria-labelledby="excluir-titulo">
+            <div class="card-body">
+                <h2 id="excluir-titulo" class="h5">Excluir conta</h2>
+                <p>A exclusão é definitiva e não pode ser desfeita. Serão apagados:</p>
+                <ul>
+                    <li>seu nome, e-mail e senha;</li>
+                    <li>o registro do seu aceite da Política de Privacidade;</li>
+                    <li>todos os seus comentários, inclusive os já publicados e os aguardando moderação.</li>
+                </ul>
+                <p>Para comentar de novo, será preciso criar outra conta.</p>
+                <form method="post" asp-page-handler="Excluir">
+                    <div class="mb-3">
+                        <label asp-for="Exclusao.SenhaAtual" class="form-label">Digite sua senha para confirmar</label>
+                        <input asp-for="Exclusao.SenhaAtual" class="form-control" autocomplete="current-password" />
+                        <span asp-validation-for="Exclusao.SenhaAtual" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-outline-danger">Excluir minha conta</button>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

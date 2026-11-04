@@ -1,0 +1,73 @@
+@page
+@model FisicoCombat.Web.Pages.Admin.Comentarios.IndexModel
+@{
+    ViewData["Title"] = "Moderar comentários";
+    var filtros = new[]
+    {
+        (Valor: nameof(StatusComentario.Pendente), Rotulo: "Pendentes"),
+        (Valor: nameof(StatusComentario.Aprovado), Rotulo: "Aprovados"),
+        (Valor: nameof(StatusComentario.Rejeitado), Rotulo: "Rejeitados"),
+        (Valor: FisicoCombat.Web.Pages.Admin.Comentarios.IndexModel.Todos, Rotulo: "Todos"),
+    };
+}
+
+<p><a asp-page="/Admin/Index">&larr; Painel</a></p>
+<h1 class="mb-3">Moderar comentários</h1>
+<p>Comentários só aparecem nas postagens depois de aprovados.</p>
+
+<nav aria-label="Filtrar por status">
+    <ul class="nav nav-pills mb-4">
+        @foreach (var f in filtros)
+        {
+            var ativo = f.Valor == Model.FiltroAtual;
+            <li class="nav-item">
+                <a class="nav-link @(ativo ? "active bg-fc-vermelho" : "")" aria-current="@(ativo ? "page" : null)"
+                   asp-page="/Admin/Comentarios/Index" asp-route-status="@f.Valor">@f.Rotulo</a>
+            </li>
+        }
+    </ul>
+</nav>
+
+@if (Model.Comentarios.Count == 0)
+{
+    <p>Nenhum comentário nesta lista.</p>
+}
+else
+{
+    <ul class="list-unstyled">
+        @foreach (var c in Model.Comentarios)
+        {
+            <li class="card mb-3">
+                <div class="card-body">
+                    <p class="mb-2 small text-muted">
+                        <strong class="text-body">@c.Usuario?.NomeExibicao</strong>
+                        em <time datetime="@c.CriadoEm.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'")">@FisicoCombat.Web.Pages.Admin.Comentarios.IndexModel.Local(c.CriadoEm).ToString("dd/MM/yyyy 'às' HH:mm")</time>
+                        na postagem <a href="/Postagens/@c.PostagemId/@c.Postagem?.Slug">@c.Postagem?.Titulo</a>
+                        @if (Model.Filtro is null)
+                        {
+                            <span class="badge text-bg-secondary ms-1">@c.Status</span>
+                        }
+                    </p>
+                    <p class="mb-3" style="white-space: pre-line">@c.Texto</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        @if (c.Status != StatusComentario.Aprovado)
+                        {
+                            <form method="post" asp-page-handler="Aprovar" asp-route-id="@c.Id" asp-route-status="@Model.FiltroAtual">
+                                <button type="submit" class="btn btn-primary btn-sm">Aprovar</button>
+                            </form>
+                        }
+                        @if (c.Status != StatusComentario.Rejeitado)
+                        {
+                            <form method="post" asp-page-handler="Rejeitar" asp-route-id="@c.Id" asp-route-status="@Model.FiltroAtual">
+                                <button type="submit" class="btn btn-outline-primary btn-sm">Rejeitar</button>
+                            </form>
+                        }
+                        <form method="post" asp-page-handler="Excluir" asp-route-id="@c.Id" asp-route-status="@Model.FiltroAtual">
+                            <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Excluir este comentário definitivamente?')">Excluir</button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+}
