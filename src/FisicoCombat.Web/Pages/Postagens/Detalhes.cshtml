@@ -1,0 +1,112 @@
+@page "/Postagens/{id:int}/{slug?}"
+@model FisicoCombat.Web.Pages.Postagens.DetalhesModel
+@{
+    var p = Model.Postagem;
+    var midia = p.Tipo == TipoPostagem.Midia;
+    ViewData["Title"] = p.Titulo;
+    ViewData["Descricao"] = Model.Resumo;
+    var urlCodificada = Uri.EscapeDataString(Model.UrlAbsoluta);
+    var caminho = Url.Page("/Postagens/Detalhes", new { id = p.Id, slug = p.Slug })!;
+}
+@section Meta {
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Físico Combat" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content="@p.Titulo" />
+    <meta property="og:description" content="@Model.Resumo" />
+    <meta property="og:url" content="@Model.UrlAbsoluta" />
+    @if (Model.ImagemCompartilhamento is not null)
+    {
+        <meta property="og:image" content="@Model.ImagemCompartilhamento" />
+    }
+}
+
+<article>
+    <header class="mb-3">
+        <h1>@p.Titulo</h1>
+        <p class="mb-0">
+            <span class="badge @(midia ? "bg-fc-vermelho" : "bg-fc-preto")">@(midia ? "Mídia" : "Notícia")</span>
+            @if (p.Modalidade is not null)
+            {
+                <a asp-page="/Modalidades/Detalhes" asp-route-slug="@p.Modalidade.Slug">@p.Modalidade.Nome</a>
+                <span aria-hidden="true">·</span>
+            }
+            Publicada em <partial name="_PublicoData" model="p.PublicadaEm" />
+            <span aria-hidden="true">·</span>
+            @(p.Visualizacoes == 1 ? "1 visualização" : $"{p.Visualizacoes} visualizações")
+        </p>
+    </header>
+
+    @if (!string.IsNullOrEmpty(p.ImagemCaminho))
+    {
+        <img src="@p.ImagemCaminho" alt="@(string.IsNullOrWhiteSpace(p.ImagemDescricao) ? p.Titulo : p.ImagemDescricao)"
+             class="img-fluid rounded mb-3" />
+    }
+    @if (!string.IsNullOrEmpty(p.YoutubeId))
+    {
+        <iframe src="@YouTube.UrlIncorporacao(p.YoutubeId)" title="Vídeo: @p.Titulo" class="video-responsivo mb-3"
+                loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>
+    }
+
+    <div class="texto-postagem">
+        <partial name="_PublicoParagrafos" model="p.Conteudo ?? string.Empty" />
+    </div>
+</article>
+
+<section class="mt-4" aria-labelledby="titulo-compartilhar">
+    <h2 id="titulo-compartilhar" class="h4">Compartilhar</h2>
+    <div class="d-flex flex-wrap gap-2 align-items-center" data-compartilhar data-url="@Model.UrlAbsoluta" data-titulo="@p.Titulo">
+        <a class="btn btn-outline-primary btn-sm" target="_blank" rel="noopener"
+           href="https://wa.me/?text=@(Uri.EscapeDataString(p.Titulo + " " + Model.UrlAbsoluta))">
+            Compartilhar no WhatsApp<span class="visually-hidden"> (abre em nova aba)</span>
+        </a>
+        <a class="btn btn-outline-primary btn-sm" target="_blank" rel="noopener"
+           href="https://www.facebook.com/sharer/sharer.php?u=@urlCodificada">
+            Compartilhar no Facebook<span class="visually-hidden"> (abre em nova aba)</span>
+        </a>
+        <a class="btn btn-outline-primary btn-sm" target="_blank" rel="noopener"
+           href="https://twitter.com/intent/tweet?url=@urlCodificada&amp;text=@(Uri.EscapeDataString(p.Titulo))">
+            Compartilhar no X<span class="visually-hidden"> (abre em nova aba)</span>
+        </a>
+        <button type="button" class="btn btn-outline-primary btn-sm" data-acao="copiar" hidden>Copiar link</button>
+        <button type="button" class="btn btn-primary btn-sm" data-acao="nativo" hidden>Compartilhar</button>
+        <span class="small" role="status" aria-live="polite" data-status></span>
+    </div>
+</section>
+
+<section id="comentarios" class="mt-5" aria-labelledby="titulo-comentarios">
+    <h2 id="titulo-comentarios" class="h4">Comentários</h2>
+    @if (Model.Comentarios.Count == 0)
+    {
+        <p>Ainda não há comentários.</p>
+    }
+    else
+    {
+        <ol class="list-unstyled">
+            @foreach (var c in Model.Comentarios)
+            {
+                <li class="border-bottom py-3">
+                    <p class="mb-1"><strong>@(c.Usuario?.NomeExibicao ?? "Usuário")</strong> · <partial name="_PublicoData" model="c.CriadoEm" /></p>
+                    <partial name="_PublicoParagrafos" model="c.Texto" />
+                </li>
+            }
+        </ol>
+    }
+
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <form method="post" asp-page-handler="Comentar" class="mt-3">
+            <div class="mb-3">
+                <label asp-for="Texto" class="form-label"></label>
+                <textarea asp-for="Texto" class="form-control" rows="4" maxlength="1000" aria-describedby="ajuda-comentario"></textarea>
+                <div id="ajuda-comentario" class="form-text">Até 1000 caracteres. O comentário aparece depois de aprovado pelo administrador.</div>
+                <span asp-validation-for="Texto" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar comentário</button>
+        </form>
+    }
+    else
+    {
+        <p class="mt-3"><a href="@(Url.Content("~/Conta/Entrar"))?ReturnUrl=@(Uri.EscapeDataString(caminho))">Entre na sua conta para comentar.</a></p>
+    }
+</section>

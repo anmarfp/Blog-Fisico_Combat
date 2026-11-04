@@ -1,0 +1,48 @@
+@page "/Modalidades/{slug}"
+@model FisicoCombat.Web.Pages.Modalidades.DetalhesModel
+@{
+    var m = Model.Modalidade;
+    ViewData["Title"] = m.Nome;
+}
+
+<h1>@m.Nome</h1>
+<partial name="_PublicoParagrafos" model="m.Descricao ?? string.Empty" />
+
+<p>
+    <a class="btn btn-primary" asp-page="/Postagens/Index" asp-route-tipo="midia" asp-route-modalidade="@m.Slug">Ver mídias desta modalidade</a>
+    <a class="btn btn-outline-primary" asp-page="/Postagens/Index" asp-route-modalidade="@m.Slug">Ver todas as postagens</a>
+</p>
+
+<section class="mt-4" aria-labelledby="titulo-professores">
+    <h2 id="titulo-professores">Professores</h2>
+    @if (Model.Professores.Count == 0)
+    {
+        <p>Nenhum professor vinculado a esta modalidade.</p>
+    }
+    else
+    {
+        <ul>
+            @foreach (var professor in Model.Professores)
+            {
+                <li><a asp-page="/Professores/Index" asp-fragment="professor-@professor.Id">@professor.Nome</a></li>
+            }
+        </ul>
+    }
+</section>
+
+<section class="mt-4" aria-labelledby="titulo-postagens">
+    <h2 id="titulo-postagens">Postagens recentes</h2>
+    @if (Model.Recentes.Count == 0)
+    {
+        <p>Ainda não há postagens desta modalidade.</p>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+            @foreach (var postagem in Model.Recentes)
+            {
+                <div class="col"><partial name="_PublicoCartaoPostagem" model="postagem" /></div>
+            }
+        </div>
+    }
+</section>

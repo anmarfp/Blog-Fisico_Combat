@@ -1,0 +1,10 @@
+@model string
+@* Texto puro: cada linha vira um parágrafo, com o HTML codificado pelo Razor. *@
+@foreach (var linha in Model.Split('\n'))
+{
+    var texto = linha.Trim();
+    if (texto.Length > 0)
+    {
+        <p>@texto</p>
+    }
+}

@@ -1,0 +1,28 @@
+@model Postagem
+@{
+    var midia = Model.Tipo == TipoPostagem.Midia;
+    var temFoto = !string.IsNullOrEmpty(Model.ImagemCaminho);
+}
+<article class="card h-100 card-postagem">
+    @if (temFoto)
+    {
+        <img src="@Model.ImagemCaminho" class="card-img-top" alt="@(Model.ImagemDescricao ?? "")" loading="lazy" />
+    }
+    else if (!string.IsNullOrEmpty(Model.YoutubeId))
+    {
+        <img src="https://img.youtube.com/vi/@Model.YoutubeId/hqdefault.jpg" class="card-img-top" alt="" loading="lazy" />
+    }
+    <div class="card-body">
+        <p class="small mb-2">
+            <span class="badge @(midia ? "bg-fc-vermelho" : "bg-fc-preto")">@(midia ? "Mídia" : "Notícia")</span>
+            @if (Model.Modalidade is not null)
+            {
+                <span>@Model.Modalidade.Nome ·</span>
+            }
+            <partial name="_PublicoData" model="Model.PublicadaEm" />
+        </p>
+        <h3 class="h5 card-title mb-0">
+            <a asp-page="/Postagens/Detalhes" asp-route-id="@Model.Id" asp-route-slug="@Model.Slug" class="stretched-link">@Model.Titulo</a>
+        </h3>
+    </div>
+</article>
