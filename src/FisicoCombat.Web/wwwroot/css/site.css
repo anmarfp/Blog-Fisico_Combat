@@ -22,12 +22,15 @@ body { background: var(--fc-branco); color: var(--fc-preto); }
 .text-fc-vermelho { color: var(--fc-vermelho) !important; }
 .text-fc-vermelho-claro { color: var(--fc-vermelho-claro) !important; }
 
-/* Logo (JPG com fundo branco) num selo branco arredondado sobre o cabeçalho preto. */
-.logo-marca {
+/* Logo em faixa (fundo escuro) no cabeçalho preto; a altura define o tamanho, a largura segue a proporção. */
+.logo-cabecalho {
   display: block;
-  background: var(--fc-branco);
-  border-radius: 0.5rem;
-  padding: 2px;
+  height: 44px;
+  width: auto;
+}
+
+@media (min-width: 992px) {
+  .logo-cabecalho { height: 56px; }
 }
 
 .navbar-dark .nav-link { color: rgba(255, 255, 255, 0.9); }
