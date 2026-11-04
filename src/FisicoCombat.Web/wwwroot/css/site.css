@@ -22,6 +22,9 @@ body { background: var(--fc-branco); color: var(--fc-preto); }
 .text-fc-vermelho { color: var(--fc-vermelho) !important; }
 .text-fc-vermelho-claro { color: var(--fc-vermelho-claro) !important; }
 
+/* Cabeçalho no mesmo preto das bordas da logo em faixa (#050505–#0c0c0c), para a imagem não formar um retângulo visível. */
+.cabecalho { background-color: #0b0b0b; }
+
 /* Logo em faixa (fundo escuro) no cabeçalho preto; a altura define o tamanho, a largura segue a proporção. */
 .logo-cabecalho {
   display: block;
