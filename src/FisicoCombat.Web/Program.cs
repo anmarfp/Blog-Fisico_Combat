@@ -37,6 +37,9 @@ builder.Services.ConfigureApplicationCookie(o =>
     o.SlidingExpiration = true;
 });
 
+// Conta excluída ou senha trocada encerra as sessões de outros aparelhos em até 5 minutos (padrão: 30).
+builder.Services.Configure<SecurityStampValidatorOptions>(o => o.ValidationInterval = TimeSpan.FromMinutes(5));
+
 builder.Services.AddAuthorizationBuilder()
     .AddPolicy(Papeis.Administrador, p => p.RequireRole(Papeis.Administrador));
 

@@ -29,6 +29,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         builder.Entity<Postagem>(e =>
         {
             e.HasIndex(p => p.PublicadaEm);
+            e.HasIndex(p => p.Slug).IsUnique();
             // Excluir uma modalidade não apaga as postagens; elas ficam sem modalidade.
             e.HasOne(p => p.Modalidade).WithMany(m => m.Postagens)
                 .HasForeignKey(p => p.ModalidadeId).OnDelete(DeleteBehavior.SetNull);

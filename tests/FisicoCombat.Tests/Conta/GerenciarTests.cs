@@ -96,7 +96,7 @@ public class GerenciarTests(FabricaApp app) : IClassFixture<FabricaApp>
         Assert.Contains("Meu antigo &lt;b&gt;negrito&lt;/b&gt;", bruto);
         Assert.DoesNotContain("<b>negrito", bruto);
         Assert.DoesNotContain("Comentário de outra pessoa", html);
-        Assert.Contains($"href=\"/Postagens/{postagemId}/postagem-de-teste\">Postagem de teste</a>", html);
+        Assert.Matches($@"href=""/Postagens/{postagemId}/postagem-de-teste-[0-9a-f]{{8}}"">Postagem de teste</a>", html);
         Assert.Contains(MarcoBrasilia, html);
         var secao = html.IndexOf("Seus comentários", StringComparison.Ordinal);
         var recente = html.IndexOf("Meu recente", StringComparison.Ordinal);

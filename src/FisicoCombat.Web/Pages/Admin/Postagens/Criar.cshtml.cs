@@ -21,9 +21,25 @@ public class CriarModel(AppDbContext db, ArmazenamentoImagens imagens, UserManag
             return Page();
         }
 
-        postagem.Slug = await SlugUnico.GerarAsync(postagem.Titulo, 150, s => Db.Postagens.AnyAsync(p => p.Slug == s));
         Db.Postagens.Add(postagem);
-        await Db.SaveChangesAsync();
+        // O índice único protege contra dois envios simultâneos com o mesmo título (ex.: clique duplo):
+        // se o slug for tomado entre a verificação e a gravação, gera o próximo e tenta de novo.
+        for (var tentativa = 1; ; tentativa++)
+        {
+            postagem.Slug = await SlugUnico.GerarAsync(postagem.Titulo, 150, s => Db.Postagens.AnyAsync(p => p.Slug == s));
+            try
+            {
+                await Db.SaveChangesAsync();
+                break;
+            }
+            catch (DbUpdateException)
+            {
+                if (tentativa < 3 && await Db.Postagens.AnyAsync(p => p.Slug == postagem.Slug)) continue;
+                // Não deixa a foto recém-enviada órfã no disco.
+                Imagens.Excluir(postagem.ImagemCaminho);
+                throw;
+            }
+        }
 
         TempData["Mensagem"] = $"Postagem \"{postagem.Titulo}\" publicada.";
         return RedirectToPage("Index");

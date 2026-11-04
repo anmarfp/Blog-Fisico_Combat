@@ -10,7 +10,6 @@ namespace FisicoCombat.Web.Pages.Admin.Comentarios;
 public class IndexModel(AppDbContext db) : PageModel
 {
     public const string Todos = "Todos";
-    private static readonly TimeZoneInfo Brasilia = TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo");
 
     /// <summary>Filtro vindo da URL: Pendente (padrão), Aprovado, Rejeitado ou Todos.</summary>
     [BindProperty(SupportsGet = true)]
@@ -26,7 +25,6 @@ public class IndexModel(AppDbContext db) : PageModel
 
     public string FiltroAtual => Filtro?.ToString() ?? Todos;
 
-    public static DateTime Local(DateTime utc) => TimeZoneInfo.ConvertTimeFromUtc(DateTime.SpecifyKind(utc, DateTimeKind.Utc), Brasilia);
 
     public async Task OnGetAsync()
     {

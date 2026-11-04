@@ -1,3 +1,4 @@
+using System.Globalization;
 using FisicoCombat.Web.Data;
 using FisicoCombat.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ public class CriarModel(AppDbContext db) : PageModel
         if (!ModelState.IsValid) return Page();
 
         var nome = Modalidade.Nome.Trim();
-        if (await db.Modalidades.AnyAsync(m => m.Nome.ToLower() == nome.ToLower()))
+        if (await NomeEmUsoAsync(db, nome, idAtual: null))
         {
             ModelState.AddModelError("Modalidade.Nome", "Já existe uma modalidade com esse nome.");
             return Page();
@@ -38,4 +39,12 @@ public class CriarModel(AppDbContext db) : PageModel
         TempData["Mensagem"] = $"Modalidade \"{nova.Nome}\" criada.";
         return RedirectToPage("Index");
     }
+
+    /// <summary>
+    /// Compara em memória com as regras do português: o lower() do SQLite só trata letras ASCII,
+    /// e "JUDÔ" e "judô" seriam vistos como nomes diferentes. A lista de modalidades é pequena.
+    /// </summary>
+    internal static async Task<bool> NomeEmUsoAsync(AppDbContext db, string nome, int? idAtual) =>
+        (await db.Modalidades.Where(m => m.Id != idAtual).Select(m => m.Nome).ToListAsync())
+            .Any(n => string.Compare(n, nome, CultureInfo.CurrentCulture, CompareOptions.IgnoreCase) == 0);
 }

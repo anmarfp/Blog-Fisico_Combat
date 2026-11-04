@@ -38,7 +38,9 @@ public class DetalhesModel(AppDbContext db, UserManager<Usuario> usuarios) : Pag
 
     public async Task<IActionResult> OnPostComentarAsync(int id)
     {
-        if (User.Identity?.IsAuthenticated != true) return Challenge();
+        // Conta excluída com cookie ainda válido também precisa entrar de novo (evita erro de chave estrangeira).
+        var autor = User.Identity?.IsAuthenticated == true ? await usuarios.GetUserAsync(User) : null;
+        if (autor is null) return Challenge();
 
         if (!ModelState.IsValid)
             return await CarregarAsync(id) ? Page() : NotFound();
@@ -49,7 +51,7 @@ public class DetalhesModel(AppDbContext db, UserManager<Usuario> usuarios) : Pag
         db.Comentarios.Add(new Comentario
         {
             PostagemId = id,
-            UsuarioId = usuarios.GetUserId(User)!,
+            UsuarioId = autor.Id,
             Texto = Texto!.Trim(),
             CriadoEm = DateTime.UtcNow,
             Status = StatusComentario.Pendente,

@@ -9,6 +9,7 @@
     var caminho = Url.Page("/Postagens/Detalhes", new { id = p.Id, slug = p.Slug })!;
 }
 @section Meta {
+    <link rel="canonical" href="@Model.UrlAbsoluta" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="Físico Combat" />
     <meta property="og:locale" content="pt_BR" />
@@ -86,7 +87,7 @@
             @foreach (var c in Model.Comentarios)
             {
                 <li class="border-bottom py-3">
-                    <p class="mb-1"><strong>@(c.Usuario?.NomeExibicao ?? "Usuário")</strong> · <partial name="_PublicoData" model="c.CriadoEm" /></p>
+                    <p class="mb-1"><strong>@(string.IsNullOrWhiteSpace(c.Usuario?.NomeExibicao) ? "Usuário" : c.Usuario!.NomeExibicao)</strong> · <partial name="_PublicoData" model="c.CriadoEm" /></p>
                     <partial name="_PublicoParagrafos" model="c.Texto" />
                 </li>
             }

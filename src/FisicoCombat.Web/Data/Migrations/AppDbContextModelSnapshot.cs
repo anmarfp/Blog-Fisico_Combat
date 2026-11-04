@@ -136,6 +136,9 @@ namespace FisicoCombat.Web.Data.Migrations
 
                     b.HasIndex("PublicadaEm");
 
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
                     b.ToTable("Postagens");
                 });
 

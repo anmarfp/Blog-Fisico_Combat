@@ -44,7 +44,7 @@ public static class Apoio
             Texto = texto,
             Status = status,
             CriadoEm = DateTime.UtcNow,
-            Postagem = new Postagem { Titulo = "Postagem de teste", Slug = "postagem-de-teste", PublicadaEm = DateTime.UtcNow },
+            Postagem = new Postagem { Titulo = "Postagem de teste", Slug = "postagem-de-teste-" + Guid.NewGuid().ToString("N")[..8], PublicadaEm = DateTime.UtcNow },
         };
         await app.ExecutarAsync(async db =>
         {

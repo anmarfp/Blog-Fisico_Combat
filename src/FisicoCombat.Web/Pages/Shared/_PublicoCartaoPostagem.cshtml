@@ -2,6 +2,10 @@
 @{
     var midia = Model.Tipo == TipoPostagem.Midia;
     var temFoto = !string.IsNullOrEmpty(Model.ImagemCaminho);
+    // Resumo de até ~140 caracteres, cortado no fim de uma palavra.
+    var texto = string.Join(" ", (Model.Conteudo ?? "").Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries));
+    var corte = texto.Length <= 140 ? texto.Length : texto.LastIndexOf(' ', 140) is var i and > 0 ? i : 140;
+    var resumo = texto.Length <= 140 ? texto : texto[..corte] + "…";
 }
 <article class="card h-100 card-postagem">
     @if (temFoto)
@@ -24,5 +28,9 @@
         <h3 class="h5 card-title mb-0">
             <a asp-page="/Postagens/Detalhes" asp-route-id="@Model.Id" asp-route-slug="@Model.Slug" class="stretched-link">@Model.Titulo</a>
         </h3>
+        @if (resumo.Length > 0)
+        {
+            <p class="card-text mt-2 mb-0">@resumo</p>
+        }
     </div>
 </article>

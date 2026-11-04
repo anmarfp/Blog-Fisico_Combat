@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using FisicoCombat.Web.Data;
 using FisicoCombat.Web.Models;
+using FisicoCombat.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,15 +12,13 @@ namespace FisicoCombat.Web.Pages.Conta.Gerenciar;
 /// <summary>"Minha conta": ver dados e comentários, mudar nome, trocar senha e excluir a conta (LGPD, art. 18).</summary>
 public class IndexModel(UserManager<Usuario> usuarios, SignInManager<Usuario> signIn, AppDbContext db) : PageModel
 {
-    private static readonly TimeZoneInfo Brasilia = TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo");
-
     public Usuario Usuario { get; private set; } = null!;
 
     /// <summary>Comentários do próprio usuário, do mais novo ao mais antigo (direito de acesso, LGPD).</summary>
     public List<Comentario> Comentarios { get; private set; } = [];
 
     public DateTime? ConsentimentoLocal =>
-        Usuario.ConsentimentoEm is { } d ? TimeZoneInfo.ConvertTimeFromUtc(DateTime.SpecifyKind(d, DateTimeKind.Utc), Brasilia) : null;
+        Usuario.ConsentimentoEm is { } d ? HoraLocal.DeUtc(d) : null;
 
     [BindProperty]
     public NomeModel Nome { get; set; } = new();
@@ -108,6 +107,7 @@ public class IndexModel(UserManager<Usuario> usuarios, SignInManager<Usuario> si
             return Page();
         }
 
+        await usuarios.ResetAccessFailedCountAsync(Usuario);
         // A troca de senha muda o carimbo de segurança; renova o cookie desta sessão.
         await signIn.RefreshSignInAsync(Usuario);
         TempData["Mensagem"] = "Senha alterada.";
@@ -125,6 +125,8 @@ public class IndexModel(UserManager<Usuario> usuarios, SignInManager<Usuario> si
             ModelState.AddModelError("Exclusao.SenhaAtual", "Senha incorreta.");
             return Page();
         }
+        // Senha certa zera as tentativas erradas acumuladas (o login também faz isso).
+        await usuarios.ResetAccessFailedCountAsync(Usuario);
 
         // UserManager usa este mesmo AppDbContext; a transação (BEGIN IMMEDIATE no SQLite) impede
         // que dois administradores se excluam ao mesmo tempo e o blog fique sem nenhum.
