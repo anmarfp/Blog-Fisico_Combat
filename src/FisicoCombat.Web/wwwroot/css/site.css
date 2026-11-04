@@ -22,6 +22,14 @@ body { background: var(--fc-branco); color: var(--fc-preto); }
 .text-fc-vermelho { color: var(--fc-vermelho) !important; }
 .text-fc-vermelho-claro { color: var(--fc-vermelho-claro) !important; }
 
+/* Logo (JPG com fundo branco) num selo branco arredondado sobre o cabeçalho preto. */
+.logo-marca {
+  display: block;
+  background: var(--fc-branco);
+  border-radius: 0.5rem;
+  padding: 2px;
+}
+
 .navbar-dark .nav-link { color: rgba(255, 255, 255, 0.9); }
 .navbar-dark .nav-link:hover,
 .navbar-dark .nav-link:focus { color: var(--fc-vermelho-claro); }
