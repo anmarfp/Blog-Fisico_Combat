@@ -1,5 +1,6 @@
 using FisicoCombat.Web.Data;
 using FisicoCombat.Web.Models;
+using FisicoCombat.Web.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,8 +8,6 @@ namespace FisicoCombat.Web.Pages.Admin.Postagens;
 
 public class IndexModel(AppDbContext db) : PageModel
 {
-    private static readonly TimeZoneInfo HorarioRio = TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo");
-
     public List<Postagem> Postagens { get; private set; } = [];
 
     public async Task OnGetAsync() =>
@@ -16,5 +15,5 @@ public class IndexModel(AppDbContext db) : PageModel
 
     /// <summary>Data gravada em UTC exibida no horário do Rio de Janeiro (dd/MM/aaaa HH:mm).</summary>
     public static string DataLocal(DateTime utc) =>
-        TimeZoneInfo.ConvertTimeFromUtc(DateTime.SpecifyKind(utc, DateTimeKind.Utc), HorarioRio).ToString("dd/MM/yyyy HH:mm");
+        HoraLocal.DeUtc(utc).ToString("dd/MM/yyyy HH:mm");
 }

@@ -46,6 +46,7 @@ Em produção, configure por variáveis de ambiente:
 | `ConnectionStrings__Padrao` | Conexão SQLite, ex.: `Data Source=/home/data/fisicocombat.db` |
 | `Armazenamento__PastaUploads` | Pasta persistente das fotos, ex.: `/home/data/uploads` |
 | `AdminInicial__Email` / `AdminInicial__Senha` | Administrador criado na primeira execução |
+| `AllowedHosts` | Domínio público do blog, ex.: `fisicocombat.azurewebsites.net` (os links de compartilhamento usam o endereço da requisição) |
 
 ## Testes
 

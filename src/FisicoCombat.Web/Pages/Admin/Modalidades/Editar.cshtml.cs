@@ -26,7 +26,7 @@ public class EditarModel(AppDbContext db) : PageModel
         if (!ModelState.IsValid) return Page();
 
         var nome = Modalidade.Nome.Trim();
-        if (await db.Modalidades.AnyAsync(m => m.Id != id && m.Nome.ToLower() == nome.ToLower()))
+        if (await CriarModel.NomeEmUsoAsync(db, nome, idAtual: id))
         {
             ModelState.AddModelError("Modalidade.Nome", "Já existe uma modalidade com esse nome.");
             return Page();
