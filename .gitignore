@@ -20,3 +20,6 @@ TestResults/
 *.db-shm
 *.db-wal
 **/wwwroot/uploads/
+
+# Worktrees temporárias dos agentes
+.claude/worktrees/
