@@ -2,8 +2,10 @@
 
 ## Environments
 
-- Produção: MonsterASP.NET, plano gratuito, site `site105006`, https://site105006.siteasp.net
+- Produção: MonsterASP.NET, plano gratuito, site `site105006`, endereço público http://fisico-combat.runasp.net
   (IIS Windows, pool 32 bits, hosting in-process, servidor na Europa, dorme após 3 h sem acesso,
+  `site105006.siteasp.net` é só o servidor de Web Deploy (porta 8172); a raiz dele mostra a página de
+  propaganda do MonsterASP e não é o site. HTTPS no plano grátis: pedido ao suporte.
   256 MB de memória). Decidido pelo responsável em 2026-11-04 depois que a assinatura Azure
   Free Trial recusou o App Service F1 (cota 0 em todas as regiões testadas).
 - O grupo de recursos vazio `rg-fisicocombat` (Brazil South) ficou na assinatura Azure; não gera custo.
@@ -26,7 +28,8 @@
 
 ## Smoke checks
 
-- `GET /` e `GET /Postagens` → 200; login do administrador; `/Admin` → 200 logado.
+- `GET /` e `GET /Postagens` → 200 e título "Início | Físico Combat" (não basta o 200: confira o conteúdo); login do administrador; `/Admin` → 200 logado.
+- Erro 500.30 na partida: definir temporariamente `ASPNETCORE_ENVIRONMENT=Development` no painel para ver a exceção e remover em seguida. Em 2026-11-04 a causa foi `AdminInicial__Senha` sem letra minúscula.
 - Depois de uma segunda publicação, o banco e as fotos continuam lá (DoNotDeleteRule).
 
 ## Rollback

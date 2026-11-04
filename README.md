@@ -51,7 +51,7 @@ Em produção, configure por variáveis de ambiente:
 ## Publicação
 
 O blog é publicado no [MonsterASP.NET](https://www.monsterasp.net) (plano gratuito, IIS
-Windows, pool de 32 bits) em **https://site105006.siteasp.net**. Cada push na `main` roda os
+Windows, pool de 32 bits) em **http://fisico-combat.runasp.net** (HTTPS a ser ativado pelo suporte do MonsterASP). Cada push na `main` roda os
 testes e, se passarem, o job `deploy` do `.github/workflows/ci.yml` publica via Web Deploy.
 
 - Segredos do repositório: `WEBSITE_NAME`, `SERVER_COMPUTER_NAME`, `SERVER_USERNAME` e
