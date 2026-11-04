@@ -8,6 +8,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/jpeg" href="~/img/logo.jpg" asp-append-version="true" />
+    <link rel="apple-touch-icon" href="~/img/logo.jpg" asp-append-version="true" />
     <title>@(ViewData["Title"] is string t ? $"{t} | Físico Combat" : "Físico Combat")</title>
     <meta name="description" content="@(ViewData["Descricao"] as string ?? "Notícias, fotos e vídeos do Centro de Treinamento de artes marciais Físico Combat, em Guaratiba, RJ.")" />
     @await RenderSectionAsync("Meta", required: false)
