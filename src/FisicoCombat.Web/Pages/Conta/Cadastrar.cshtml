@@ -1,0 +1,62 @@
+@page
+@model FisicoCombat.Web.Pages.Conta.CadastrarModel
+@{
+    ViewData["Title"] = "Criar conta";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <h1 class="mb-3">Criar conta</h1>
+        <p>Com uma conta você pode comentar nas postagens. Pedimos só o necessário: nome, e-mail e senha.</p>
+
+        <form method="post" asp-route-returnUrl="@Model.ReturnUrl" novalidate>
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+            <div class="mb-3">
+                <label asp-for="Input.NomeExibicao" class="form-label"></label>
+                <input asp-for="Input.NomeExibicao" class="form-control" autocomplete="name" aria-describedby="nome-ajuda" />
+                <div id="nome-ajuda" class="form-text">Aparece junto dos seus comentários.</div>
+                <span asp-validation-for="Input.NomeExibicao" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Email" class="form-label"></label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="email" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Senha" class="form-label"></label>
+                <input asp-for="Input.Senha" class="form-control" autocomplete="new-password" aria-describedby="senha-ajuda" />
+                <div id="senha-ajuda" class="form-text">Mínimo de 8 caracteres, com pelo menos uma letra minúscula e um número.</div>
+                <span asp-validation-for="Input.Senha" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.ConfirmarSenha" class="form-label"></label>
+                <input asp-for="Input.ConfirmarSenha" class="form-control" autocomplete="new-password" />
+                <span asp-validation-for="Input.ConfirmarSenha" class="text-danger"></span>
+            </div>
+
+            <div class="form-check mb-3">
+                <input asp-for="Input.AceitoPrivacidade" class="form-check-input" aria-describedby="privacidade-ajuda" />
+                <label asp-for="Input.AceitoPrivacidade" class="form-check-label">Li e aceito a Política de Privacidade.</label>
+                <div id="privacidade-ajuda" class="form-text">
+                    <a asp-page="/Privacidade" target="_blank" rel="noopener">Ler a Política de Privacidade<span class="visually-hidden"> (abre em nova aba)</span></a>
+                </div>
+                <span asp-validation-for="Input.AceitoPrivacidade" class="text-danger d-block"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Criar conta</button>
+        </form>
+
+        <p class="mt-3">
+            Já tem conta?
+            <a asp-page="/Conta/Entrar" asp-route-returnUrl="@Model.ReturnUrl">Entre</a>.
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

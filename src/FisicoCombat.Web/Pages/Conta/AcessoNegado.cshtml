@@ -1,0 +1,27 @@
+@page
+@model FisicoCombat.Web.Pages.Conta.AcessoNegadoModel
+@{
+    ViewData["Title"] = "Acesso negado";
+}
+
+<h1>Acesso negado</h1>
+<p>
+    Sua conta não tem permissão para abrir esta página. A área administrativa é exclusiva
+    da equipe do CT Físico Combat.
+</p>
+<p>Se você tem uma conta de administrador, entre com ela.</p>
+
+<div class="d-flex flex-wrap gap-2">
+    <a class="btn btn-primary" asp-page="/Index">Voltar ao início</a>
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        @* Quem já está conectado precisa sair antes de entrar com outra conta. *@
+        <form method="post" asp-page="/Conta/Sair" asp-route-returnUrl="@Model.EntrarComOutraConta">
+            <button type="submit" class="btn btn-outline-primary">Entrar com outra conta</button>
+        </form>
+    }
+    else
+    {
+        <a class="btn btn-outline-primary" href="@Model.EntrarComOutraConta">Entrar com outra conta</a>
+    }
+</div>
