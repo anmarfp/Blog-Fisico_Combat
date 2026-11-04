@@ -1,5 +1,6 @@
 using FisicoCombat.Web.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace FisicoCombat.Web.Data;
@@ -18,6 +19,7 @@ public static class InicializadorBanco
         var db = sp.GetRequiredService<AppDbContext>();
         var logger = sp.GetRequiredService<ILoggerFactory>().CreateLogger(nameof(InicializadorBanco));
 
+        GarantirPastaDoBanco(db.Database.GetConnectionString());
         await db.Database.MigrateAsync();
 
         var papeis = sp.GetRequiredService<RoleManager<IdentityRole>>();
@@ -53,5 +55,17 @@ public static class InicializadorBanco
 
         if (!await usuarios.IsInRoleAsync(admin, Papeis.Administrador))
             await usuarios.AddToRoleAsync(admin, Papeis.Administrador);
+    }
+
+    /// <summary>
+    /// O SQLite cria o arquivo do banco, mas não a pasta. Em produção o banco fica numa
+    /// subpasta (ex.: App_Data), que ainda não existe na primeira execução.
+    /// </summary>
+    internal static void GarantirPastaDoBanco(string? connectionString)
+    {
+        var arquivo = new SqliteConnectionStringBuilder(connectionString).DataSource;
+        if (string.IsNullOrEmpty(arquivo) || arquivo == ":memory:") return;
+        var pasta = Path.GetDirectoryName(Path.GetFullPath(arquivo));
+        if (!string.IsNullOrEmpty(pasta)) Directory.CreateDirectory(pasta);
     }
 }

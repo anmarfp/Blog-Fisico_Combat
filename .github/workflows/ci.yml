@@ -19,3 +19,25 @@ jobs:
       - run: dotnet restore FisicoCombat.sln
       - run: dotnet build FisicoCombat.sln --no-restore -c Release
       - run: dotnet test FisicoCombat.sln --no-build -c Release -- xUnit.MaxParallelThreads=2
+
+  # Publica no MonsterASP.NET (IIS, pool 32 bits) depois que os testes passam num push para main.
+  # Credenciais nos segredos do repositório. A ação usa DoNotDeleteRule: o banco (App_Data) e as
+  # fotos (wwwroot/uploads), que só existem no servidor, não são apagados a cada publicação.
+  deploy:
+    needs: build-test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: windows-latest
+    concurrency: publicacao-producao
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet publish src/FisicoCombat.Web -c Release -r win-x86 --self-contained false -o publish
+      - name: Publicar via Web Deploy
+        uses: rasmusbuchholdt/simply-web-deploy@cf9160163099a3b6b8ddf3978ed26b348221bbb8 # 2.2.0
+        with:
+          website-name: ${{ secrets.WEBSITE_NAME }}
+          server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
+          server-username: ${{ secrets.SERVER_USERNAME }}
+          server-password: ${{ secrets.SERVER_PASSWORD }}
