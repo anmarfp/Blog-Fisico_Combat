@@ -19,11 +19,11 @@ conditions. Do not copy one-off terminal history here.
 - `dotnet build FisicoCombat.sln -v q` (exit 0 esperado, sem avisos).
 - `dotnet test FisicoCombat.sln -- xUnit.MaxParallelThreads=2` (143 testes em ~10 s; paralelismo
   limitado; cada classe de teste sobe o app com SQLite em memória próprio via
-  `tests/FisicoCombat.Tests/Infra/FabricaApp.cs`).
+  `tests/FisicoCombat.Tests/Infra/FabricaApp.cs`, reviewed 1efc7a8).
 - Migrações: `dotnet ef migrations add <Nome> --project src/FisicoCombat.Web
   --output-dir Data/Migrations` (ferramenta local em `dotnet-tools.json`; rode
   `dotnet tool restore` antes). O app aplica migrações na inicialização.
-- CI: `.github/workflows/ci.yml` roda build e testes em push para `main` e em PRs.
+- CI: `.github/workflows/ci.yml` (reviewed 1efc7a8) roda build e testes em push para `main` e em PRs.
 
 ### Integração
 
