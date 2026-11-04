@@ -48,6 +48,20 @@ Em produção, configure por variáveis de ambiente:
 | `AdminInicial__Email` / `AdminInicial__Senha` | Administrador criado na primeira execução |
 | `AllowedHosts` | Domínio público do blog, ex.: `fisicocombat.azurewebsites.net` (os links de compartilhamento usam o endereço da requisição) |
 
+## Publicação
+
+O blog é publicado no [MonsterASP.NET](https://www.monsterasp.net) (plano gratuito, IIS
+Windows, pool de 32 bits) em **https://site105006.siteasp.net**. Cada push na `main` roda os
+testes e, se passarem, o job `deploy` do `.github/workflows/ci.yml` publica via Web Deploy.
+
+- Segredos do repositório: `WEBSITE_NAME`, `SERVER_COMPUTER_NAME`, `SERVER_USERNAME` e
+  `SERVER_PASSWORD` (senha do Web Deploy, no painel do MonsterASP → Deploy).
+- Variáveis de ambiente no painel do MonsterASP (Scripting → Environment variables):
+  `ConnectionStrings__Padrao` = `Data Source=App_Data/fisicocombat.db`, `AllowedHosts`,
+  `AdminInicial__Email` e `AdminInicial__Senha`.
+- O banco (`App_Data/`) e as fotos (`wwwroot/uploads/`) existem só no servidor; a publicação
+  usa `DoNotDeleteRule` e não os apaga.
+
 ## Testes
 
 ```bash
