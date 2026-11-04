@@ -1,0 +1,22 @@
+<!-- AIHAUS:START -->
+/.aihaus-download/
+.aihaus/state/
+.aihaus/runtime/
+.aihaus/backups/
+<!-- AIHAUS:END -->
+
+# Documentos da disciplina (manual da UNINTER, exemplo de terceiro, trabalhos com RU)
+/Docs/
+
+# .NET
+bin/
+obj/
+*.user
+.vs/
+TestResults/
+
+# Dados locais do blog (banco SQLite e fotos enviadas)
+*.db
+*.db-shm
+*.db-wal
+**/wwwroot/uploads/

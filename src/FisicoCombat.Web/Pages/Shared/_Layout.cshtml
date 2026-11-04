@@ -1,0 +1,79 @@
+﻿@inject SignInManager<Usuario> SignInManager
+@{
+    var logado = SignInManager.IsSignedIn(User);
+    var admin = logado && User.IsInRole(Papeis.Administrador);
+}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@(ViewData["Title"] is string t ? $"{t} | Físico Combat" : "Físico Combat")</title>
+    <meta name="description" content="@(ViewData["Descricao"] as string ?? "Notícias, fotos e vídeos do Centro de Treinamento de artes marciais Físico Combat, em Guaratiba, RJ.")" />
+    @await RenderSectionAsync("Meta", required: false)
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <a class="visually-hidden-focusable pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark bg-fc-preto" aria-label="Menu principal">
+            <div class="container">
+                <a class="navbar-brand fw-bold" asp-page="/Index">Físico <span class="text-fc-vermelho-claro">Combat</span></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+                        aria-controls="menu" aria-expanded="false" aria-label="Abrir menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menu">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item"><a class="nav-link" asp-page="/Index">Início</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-page="/Postagens/Index">Notícias e mídias</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-page="/Modalidades/Index">Modalidades</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-page="/Professores/Index">Professores</a></li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        @if (admin)
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-page="/Admin/Index">Painel</a></li>
+                        }
+                        @if (logado)
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-page="/Conta/Gerenciar/Index">Minha conta</a></li>
+                            <li class="nav-item">
+                                <form method="post" asp-page="/Conta/Sair" class="d-inline">
+                                    <button type="submit" class="nav-link btn btn-link">Sair</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-page="/Conta/Entrar">Entrar</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-page="/Conta/Cadastrar">Criar conta</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="conteudo" class="container py-4 flex-grow-1" tabindex="-1">
+        @if (TempData["Mensagem"] is string mensagem)
+        {
+            <div class="alert alert-success" role="status">@mensagem</div>
+        }
+        @RenderBody()
+    </main>
+
+    <footer class="bg-fc-preto text-white py-3 mt-auto">
+        <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
+            <span>&copy; @DateTime.Now.Year Físico Combat · Guaratiba, Rio de Janeiro – RJ</span>
+            <a class="link-light" asp-page="/Privacidade">Política de Privacidade</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

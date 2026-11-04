@@ -1,0 +1,91 @@
+/* RNF01: paleta preto, vermelho e branco.
+   Contrastes (WCAG 2.1): branco sobre --fc-vermelho 7,2:1; --fc-vermelho sobre branco 7,2:1;
+   --fc-vermelho-claro sobre --fc-preto 5,8:1. Vermelho escuro sobre preto (2,6:1) não é usado. */
+:root {
+  --fc-preto: #111111;
+  --fc-vermelho: #b3001b;
+  --fc-vermelho-escuro: #8a0015;
+  --fc-vermelho-claro: #ff4d5e;
+  --fc-branco: #ffffff;
+  --bs-link-color: var(--fc-vermelho);
+  --bs-link-color-rgb: 179, 0, 27;
+  --bs-link-hover-color: var(--fc-vermelho-escuro);
+  --bs-link-hover-color-rgb: 138, 0, 21;
+}
+
+html { font-size: 16px; }
+
+body { background: var(--fc-branco); color: var(--fc-preto); }
+
+.bg-fc-preto { background-color: var(--fc-preto) !important; }
+.bg-fc-vermelho { background-color: var(--fc-vermelho) !important; color: var(--fc-branco); }
+.text-fc-vermelho { color: var(--fc-vermelho) !important; }
+.text-fc-vermelho-claro { color: var(--fc-vermelho-claro) !important; }
+
+.navbar-dark .nav-link { color: rgba(255, 255, 255, 0.9); }
+.navbar-dark .nav-link:hover,
+.navbar-dark .nav-link:focus { color: var(--fc-vermelho-claro); }
+
+.btn-primary {
+  --bs-btn-bg: var(--fc-vermelho);
+  --bs-btn-border-color: var(--fc-vermelho);
+  --bs-btn-hover-bg: var(--fc-vermelho-escuro);
+  --bs-btn-hover-border-color: var(--fc-vermelho-escuro);
+  --bs-btn-active-bg: var(--fc-vermelho-escuro);
+  --bs-btn-active-border-color: var(--fc-vermelho-escuro);
+  --bs-btn-disabled-bg: var(--fc-vermelho);
+  --bs-btn-disabled-border-color: var(--fc-vermelho);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--fc-vermelho);
+  --bs-btn-border-color: var(--fc-vermelho);
+  --bs-btn-hover-bg: var(--fc-vermelho);
+  --bs-btn-hover-border-color: var(--fc-vermelho);
+  --bs-btn-active-bg: var(--fc-vermelho-escuro);
+  --bs-btn-active-border-color: var(--fc-vermelho-escuro);
+}
+
+.btn-dark {
+  --bs-btn-bg: var(--fc-preto);
+  --bs-btn-border-color: var(--fc-preto);
+}
+
+/* Foco sempre visível para navegação por teclado. */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  outline: 3px solid var(--fc-vermelho-claro);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 0.15rem var(--fc-preto);
+}
+
+.pular-conteudo {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 1100;
+  padding: 0.5rem 1rem;
+  background: var(--fc-branco);
+  color: var(--fc-preto);
+}
+
+main:focus { outline: none; }
+
+.card-postagem img,
+.foto-professor {
+  object-fit: cover;
+}
+
+.video-responsivo {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+}
