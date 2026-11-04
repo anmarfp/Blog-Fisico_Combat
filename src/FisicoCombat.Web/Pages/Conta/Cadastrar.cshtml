@@ -39,11 +39,11 @@
             </div>
 
             <div class="form-check mb-3">
-                <input asp-for="Input.AceitoPrivacidade" class="form-check-input" />
-                <label asp-for="Input.AceitoPrivacidade" class="form-check-label">
-                    Li e aceito a <a asp-page="/Privacidade" target="_blank" rel="noopener">Política de Privacidade</a>
-                    <span class="visually-hidden">(abre em nova aba)</span>.
-                </label>
+                <input asp-for="Input.AceitoPrivacidade" class="form-check-input" aria-describedby="privacidade-ajuda" />
+                <label asp-for="Input.AceitoPrivacidade" class="form-check-label">Li e aceito a Política de Privacidade.</label>
+                <div id="privacidade-ajuda" class="form-text">
+                    <a asp-page="/Privacidade" target="_blank" rel="noopener">Ler a Política de Privacidade<span class="visually-hidden"> (abre em nova aba)</span></a>
+                </div>
                 <span asp-validation-for="Input.AceitoPrivacidade" class="text-danger d-block"></span>
             </div>
 

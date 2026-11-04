@@ -35,6 +35,21 @@ public class ModeracaoTests(FabricaApp app) : IClassFixture<FabricaApp>
     }
 
     [Fact]
+    public async Task Usuario_comum_com_token_valido_nao_aprova()
+    {
+        var id = await ComentarAsync("Tentativa de autoaprovação");
+        var (comum, _) = await app.CriarClienteUsuarioAsync("comum-post@teste.local");
+
+        // Token válido para este usuário, tirado de uma página que ele pode abrir.
+        var resposta = await Formularios.EnviarAsync(comum, "/Conta/Gerenciar", [],
+            $"/Admin/Comentarios?handler=Aprovar&id={id}");
+
+        Assert.Equal(HttpStatusCode.Redirect, resposta.StatusCode);
+        Assert.StartsWith("/Conta/AcessoNegado", resposta.Headers.Location!.PathAndQuery);
+        Assert.Equal(StatusComentario.Pendente, await StatusAsync(id));
+    }
+
+    [Fact]
     public async Task Lista_pendentes_por_padrao_e_filtra_por_status()
     {
         await ComentarAsync("Filtro pendente <script>alert(1)</script>");
@@ -48,6 +63,9 @@ public class ModeracaoTests(FabricaApp app) : IClassFixture<FabricaApp>
         Assert.DoesNotContain("Filtro aprovado", padrao);
         Assert.DoesNotContain("Filtro rejeitado", padrao);
         Assert.Contains("/Postagens/", padrao);
+        var decodificado = System.Net.WebUtility.HtmlDecode(padrao);
+        foreach (var acao in new[] { "Aprovar", "Rejeitar", "Excluir" })
+            Assert.Contains($">{acao}<span class=\"visually-hidden\"> o comentário de Usuário de Teste</span></button>", decodificado);
 
         var aprovados = await (await admin.GetAsync("/Admin/Comentarios?status=Aprovado")).Content.ReadAsStringAsync();
         Assert.Contains("Filtro aprovado", aprovados);

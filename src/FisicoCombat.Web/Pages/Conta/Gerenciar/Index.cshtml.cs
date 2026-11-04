@@ -1,17 +1,22 @@
 using System.ComponentModel.DataAnnotations;
+using FisicoCombat.Web.Data;
 using FisicoCombat.Web.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace FisicoCombat.Web.Pages.Conta.Gerenciar;
 
-/// <summary>"Minha conta": ver dados, mudar nome, trocar senha e excluir a conta (LGPD, art. 18).</summary>
-public class IndexModel(UserManager<Usuario> usuarios, SignInManager<Usuario> signIn) : PageModel
+/// <summary>"Minha conta": ver dados e comentários, mudar nome, trocar senha e excluir a conta (LGPD, art. 18).</summary>
+public class IndexModel(UserManager<Usuario> usuarios, SignInManager<Usuario> signIn, AppDbContext db) : PageModel
 {
     private static readonly TimeZoneInfo Brasilia = TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo");
 
     public Usuario Usuario { get; private set; } = null!;
+
+    /// <summary>Comentários do próprio usuário, do mais novo ao mais antigo (direito de acesso, LGPD).</summary>
+    public List<Comentario> Comentarios { get; private set; } = [];
 
     public DateTime? ConsentimentoLocal =>
         Usuario.ConsentimentoEm is { } d ? TimeZoneInfo.ConvertTimeFromUtc(DateTime.SpecifyKind(d, DateTimeKind.Utc), Brasilia) : null;
@@ -72,9 +77,14 @@ public class IndexModel(UserManager<Usuario> usuarios, SignInManager<Usuario> si
         if (!await CarregarAsync(nameof(Nome))) return Sair();
         if (!ModelState.IsValid) return Page();
 
+        var anterior = Usuario.NomeExibicao;
         Usuario.NomeExibicao = Nome.NomeExibicao.Trim();
         var resultado = await usuarios.UpdateAsync(Usuario);
-        if (!Sucesso(resultado, $"{nameof(Nome)}.{nameof(NomeModel.NomeExibicao)}")) return Page();
+        if (!Sucesso(resultado, $"{nameof(Nome)}.{nameof(NomeModel.NomeExibicao)}"))
+        {
+            Usuario.NomeExibicao = anterior; // "Seus dados" mostra só o que está salvo.
+            return Page();
+        }
 
         TempData["Mensagem"] = "Nome atualizado.";
         return RedirectToPage();
@@ -86,6 +96,9 @@ public class IndexModel(UserManager<Usuario> usuarios, SignInManager<Usuario> si
         if (!ModelState.IsValid) return Page();
 
         var resultado = await usuarios.ChangePasswordAsync(Usuario, Senha.SenhaAtual, Senha.NovaSenha);
+        if (resultado.Errors.Any(e => e.Code == nameof(IdentityErrorDescriber.PasswordMismatch))
+            && await SenhaErradaBloqueouAsync())
+            return await EncerrarPorBloqueioAsync();
         if (!resultado.Succeeded)
         {
             foreach (var erro in resultado.Errors)
@@ -108,21 +121,26 @@ public class IndexModel(UserManager<Usuario> usuarios, SignInManager<Usuario> si
 
         if (!await usuarios.CheckPasswordAsync(Usuario, Exclusao.SenhaAtual))
         {
+            if (await SenhaErradaBloqueouAsync()) return await EncerrarPorBloqueioAsync();
             ModelState.AddModelError("Exclusao.SenhaAtual", "Senha incorreta.");
             return Page();
         }
 
+        // UserManager usa este mesmo AppDbContext; a transação (BEGIN IMMEDIATE no SQLite) impede
+        // que dois administradores se excluam ao mesmo tempo e o blog fique sem nenhum.
+        await using var transacao = await db.Database.BeginTransactionAsync();
         if (await usuarios.IsInRoleAsync(Usuario, Papeis.Administrador)
             && (await usuarios.GetUsersInRoleAsync(Papeis.Administrador)).Count == 1)
         {
             ModelState.AddModelError("Exclusao.SenhaAtual",
-                "Você é o único administrador do blog. Cadastre outro administrador antes de excluir esta conta.");
+                "Você é o único administrador do blog. Peça a quem mantém o blog para configurar outro administrador antes de excluir esta conta.");
             return Page();
         }
 
         // Os comentários do usuário são apagados em cascata (Data/AppDbContext.cs).
         var resultado = await usuarios.DeleteAsync(Usuario);
         if (!Sucesso(resultado, "Exclusao.SenhaAtual")) return Page();
+        await transacao.CommitAsync();
 
         await signIn.SignOutAsync();
         TempData["Mensagem"] = "Sua conta e seus comentários foram excluídos.";
@@ -144,7 +162,27 @@ public class IndexModel(UserManager<Usuario> usuarios, SignInManager<Usuario> si
                 ModelState.Remove(chave);
         if (formulario != nameof(Nome))
             Nome.NomeExibicao = usuario.NomeExibicao;
+
+        Comentarios = await db.Comentarios.AsNoTracking()
+            .Where(c => c.UsuarioId == usuario.Id)
+            .Include(c => c.Postagem)
+            .OrderByDescending(c => c.CriadoEm).ThenByDescending(c => c.Id)
+            .ToListAsync();
         return true;
+    }
+
+    /// <summary>Conta a senha errada como tentativa falha (mesmo limite do login) e diz se a conta ficou bloqueada.</summary>
+    private async Task<bool> SenhaErradaBloqueouAsync()
+    {
+        await usuarios.AccessFailedAsync(Usuario);
+        return await usuarios.IsLockedOutAsync(Usuario);
+    }
+
+    private async Task<IActionResult> EncerrarPorBloqueioAsync()
+    {
+        await signIn.SignOutAsync();
+        TempData["Mensagem"] = "Senha incorreta muitas vezes. Por segurança, sua conta foi bloqueada por 15 minutos e você saiu dela.";
+        return RedirectToPage("/Conta/Entrar");
     }
 
     private bool Sucesso(IdentityResult resultado, string campo)

@@ -37,6 +37,7 @@ else
     <ul class="list-unstyled">
         @foreach (var c in Model.Comentarios)
         {
+            var deQuem = $" o comentário de {c.Usuario?.NomeExibicao}";
             <li class="card mb-3">
                 <div class="card-body">
                     <p class="mb-2 small text-muted">
@@ -53,17 +54,17 @@ else
                         @if (c.Status != StatusComentario.Aprovado)
                         {
                             <form method="post" asp-page-handler="Aprovar" asp-route-id="@c.Id" asp-route-status="@Model.FiltroAtual">
-                                <button type="submit" class="btn btn-primary btn-sm">Aprovar</button>
+                                <button type="submit" class="btn btn-primary btn-sm">Aprovar<span class="visually-hidden">@deQuem</span></button>
                             </form>
                         }
                         @if (c.Status != StatusComentario.Rejeitado)
                         {
                             <form method="post" asp-page-handler="Rejeitar" asp-route-id="@c.Id" asp-route-status="@Model.FiltroAtual">
-                                <button type="submit" class="btn btn-outline-primary btn-sm">Rejeitar</button>
+                                <button type="submit" class="btn btn-outline-primary btn-sm">Rejeitar<span class="visually-hidden">@deQuem</span></button>
                             </form>
                         }
                         <form method="post" asp-page-handler="Excluir" asp-route-id="@c.Id" asp-route-status="@Model.FiltroAtual">
-                            <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Excluir este comentário definitivamente?')">Excluir</button>
+                            <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Excluir este comentário definitivamente?')">Excluir<span class="visually-hidden">@deQuem</span></button>
                         </form>
                     </div>
                 </div>
